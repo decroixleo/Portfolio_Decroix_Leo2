@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Léo Decroix — Portfolio BTS SIO SISR</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%234f8ef7'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='13' fill='white'>LD</text></svg>">
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #030509; --bg2: #070b14; --bg3: #0c1322; --card: #090e1a;
+      --border: rgba(79,142,247,0.18); --border2: rgba(79,142,247,0.3);
+      --accent: #4f8ef7; --accent2: #7c5cfc; --accent3: #30e8c0;
+      --text: #f0f0f8; --muted: #8888a8; --muted2: #5a5a78; --red: #f74f4f; --orange: #f7a54f;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 30%, rgba(79, 142, 247, 0.12) 0%, rgba(3, 5, 9, 0.95) 85%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%234f8ef7' stroke-width='1.2' stroke-opacity='0.22'%3E%3Cpath d='M0 100h600M0 250h600M0 400h600M0 550h600M100 0v600M250 0v600M400 0v600M550 0v600' stroke-dasharray='8 4'/%3E%3Cpath d='M50 50h150v150H50zM350 50h150v150H350zM50 350h150v150H50zM350 350h150v150H350z' stroke-width='1.8'/%3E%3Cpath d='M125 50v75h75M475 50v75h-75M125 550v-75h75M475 550v-75h-75M50 125h75v75M50 475h75v-75M550 125h-75v75M550 475h-75v-75' stroke-width='1.5'/%3E%3Ccircle cx='125' cy='125' r='6' fill='%2330e8c0' fill-opacity='0.35' stroke='none'/%3E%3Ccircle cx='475' cy='125' r='6' fill='%234f8ef7' fill-opacity='0.35' stroke='none'/%3E%3Ccircle cx='125' cy='475' r='6' fill='%234f8ef7' fill-opacity='0.35' stroke='none'/%3E%3Ccircle cx='475' cy='475' r='6' fill='%2330e8c0' fill-opacity='0.35' stroke='none'/%3E%3Cpath d='M200 125h150M125 200v150M475 200v150M200 475h150' stroke-width='2' stroke-opacity='0.3'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover, 500px 500px;
+      background-attachment: fixed;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 60px; background: rgba(3,5,9,0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; cursor: pointer; text-decoration: none; color: var(--text); }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color .2s; cursor: pointer; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-links a.active { color: var(--accent); }
+
+    .page { display: none; }
+    .page.active { display: block; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .page.active { animation: fadein .3s ease forwards; }
+
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: .75rem; }
+    .section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.02em; margin-bottom: 3rem; }
+    .section-title span { color: var(--accent); }
+
+    /* Hero */
+    #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 80px 2rem 4rem; position: relative; overflow: hidden; }
+    .hero-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(79,142,247,0.15) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+    .hero-content { text-align: center; position: relative; z-index: 1; max-width: 780px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.25); color: var(--accent); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em; padding: 6px 14px; border-radius: 100px; margin-bottom: 2rem; }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(3rem, 8vw, 6rem); line-height: 1; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    h1 .first { color: var(--text); }
+    h1 .last { color: var(--accent); }
+    .hero-sub { font-size: 1.15rem; color: var(--muted); max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 26px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.9rem; text-decoration: none; cursor: pointer; border: none; transition: all .2s; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #6fa0ff; transform: translateY(-1px); }
+    .btn-outline { background: transparent; border: 1px solid var(--border2); color: var(--text); }
+    .btn-outline:hover { background: var(--bg3); }
+
+    /* Sections Générales */
+    #apropos { background: rgba(7,11,20,0.85); backdrop-filter: blur(12px); border-top: 1px solid var(--border); }
+    #entreprise { background: rgba(3,5,9,0.8); backdrop-filter: blur(12px); border-top: 1px solid var(--border); }
+    
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .about-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; height: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+    .about-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: .25rem; font-family: 'Syne', sans-serif; }
+    .about-card .role { color: var(--accent); font-size: .85rem; font-weight: 500; margin-bottom: 1.25rem; }
+    .about-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.25rem; }
+    .tag { font-size: .75rem; font-weight: 500; padding: 4px 10px; border-radius: 100px; background: rgba(79,142,247,0.1); color: var(--accent); border: 1px solid rgba(79,142,247,0.2); }
+    .about-text { color: var(--muted); line-height: 1.8; font-size: .92rem; }
+    .about-text p + p { margin-top: 1rem; }
+    .about-text strong { color: var(--text); font-weight: 600; }
+
+    /* Entreprise Section */
+    .entreprise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    .entreprise-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .entreprise-content { padding: 2.5rem; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .entreprise-img-wrap { position: relative; min-height: 280px; background: #000; }
+    .entreprise-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Tâches / Missions grid */
+    .missions-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; margin-top: 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .missions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+    .mission-item { background: var(--bg3); border: 1px solid var(--border2); border-radius: 12px; padding: 1.25rem; display: flex; gap: 1rem; align-items: flex-start; transition: border-color .2s; }
+    .mission-item:hover { border-color: rgba(79,142,247,0.5); }
+    .mission-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+    .mission-info h4 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--text); }
+    .mission-info p { color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
+
+    /* Bloc Bouton PDF compétences */
+    .comp-pdf-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 3rem 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.4); text-align: center; }
+    .btn-pdf-view { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; border-radius: 12px; background: var(--accent); color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; text-decoration: none; cursor: pointer; border: none; transition: background .2s, transform .15s; box-shadow: 0 4px 20px rgba(79,142,247,0.3); }
+    .btn-pdf-view:hover { background: #6fa0ff; transform: translateY(-2px); }
+
+    /* Page hero */
+    .page-hero { padding: 6rem 2rem 4rem; border-bottom: 1px solid var(--border); background: rgba(7,11,20,0.85); }
+    .page-hero .container { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 2rem; }
+
+    /* Projets */
+    .page-projets { background: var(--bg); }
+    .projet-block { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; margin-bottom: 3rem; transition: border-color .25s; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .projet-block:hover { border-color: rgba(79,142,247,0.4); }
+    .projet-block-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; padding: 2rem 2rem 1.5rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .projet-block-meta { display: flex; flex-direction: column; gap: .5rem; }
+    .projet-num-badge { display: inline-flex; align-items: center; gap: 7px; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted2); }
+    .projet-num-icon { width: 20px; height: 20px; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: 800; }
+    .projet-block-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.45rem; letter-spacing: -.02em; line-height: 1.2; }
+    .projet-type-pill { display: inline-flex; align-items: center; font-size: .72rem; font-weight: 700; padding: 5px 14px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; }
+    .projet-block-body { display: grid; grid-template-columns: 1fr 1fr; }
+    .projet-col-left { padding: 2rem; border-right: 1px solid var(--border); }
+    .projet-col-right { padding: 2rem; }
+    .col-section-label { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted2); margin-bottom: .85rem; }
+    .projet-context-text { color: var(--muted); font-size: .9rem; line-height: 1.8; margin-bottom: 1.5rem; }
+    .projet-context-text strong { color: var(--text); font-weight: 600; }
+    .projet-context-text p + p { margin-top: .9rem; }
+    .comp-list { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.5rem; }
+    .comp-badge { font-size: .72rem; font-weight: 600; padding: 4px 11px; border-radius: 8px; background: var(--bg3); border: 1px solid var(--border2); }
+    .tech-list { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tech-badge { font-size: .72rem; font-weight: 600; padding: 4px 11px; border-radius: 6px; background: var(--bg3); border: 1px solid var(--border2); color: var(--muted); }
+
+    /* Statut projet en attente */
+    .projet-pending-box { background: rgba(247,165,79,0.06); border: 1px solid rgba(247,165,79,0.25); border-radius: 12px; padding: 1.5rem; text-align: center; margin-top: 1rem; }
+    .projet-pending-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--orange); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .projet-pending-text { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+
+    /* Veille Page Styles */
+    .page-veille { background: var(--bg); }
+    .veille-intro-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .veille-intro-card h3 { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 1rem; }
+    .veille-intro-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.8; margin-bottom: 1rem; }
+    .veille-intro-card p:last-child { margin-bottom: 0; }
+    
+    .veille-themes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+    .veille-theme-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: flex; flex-direction: column; justify-content: space-between; }
+    .veille-theme-card h3 { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+    .veille-theme-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.5rem; }
+    .veille-highlight-box { background: var(--bg3); border: 1px solid var(--border2); border-radius: 12px; padding: 1.25rem; margin-top: auto; }
+    .veille-highlight-box h4 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--accent3); margin-bottom: 0.4rem; }
+    .veille-highlight-box p { color: var(--muted); font-size: 0.84rem; line-height: 1.6; margin-bottom: 0; }
+
+    /* Galerie schémas */
+    .schema-gallery { display: grid; gap: .85rem; grid-template-columns: 1fr 1fr; }
+    .schema-thumb { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid var(--border2); background: #060913; aspect-ratio: 16/9; cursor: pointer; }
+    .schema-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .schema-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 6px 10px; font-size: .68rem; font-weight: 600; color: #ccc; background: rgba(3,5,9,0.85); backdrop-filter: blur(4px); }
+
+    /* Lightbox schémas */
+    .schema-lightbox { display: none; position: fixed; inset: 0; z-index: 9998; background: rgba(4,4,12,0.97); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 1.5rem; flex-direction: column; gap: 1rem; }
+    .schema-lightbox.active { display: flex; }
+    .schema-lightbox-inner { position: relative; max-width: 1200px; width: 100%; }
+    .schema-lightbox-inner img { width: 100%; border-radius: 12px; border: 1px solid var(--border2); display: block; max-height: 80vh; object-fit: contain; }
+    .schema-lightbox-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; max-width: 1200px; width: 100%; }
+    .schema-lightbox-label { font-size: .85rem; color: var(--muted); font-weight: 500; }
+    .schema-lb-close { display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: 8px; background: var(--bg3); border: 1px solid var(--border2); color: var(--text); font-family: 'Space Grotesk', sans-serif; font-size: .8rem; font-weight: 600; cursor: pointer; }
+    .schema-lb-close:hover { background: var(--red); border-color: var(--red); }
+
+    /* Contact */
+    #contact { background: rgba(7,11,20,0.85); backdrop-filter: blur(12px); border-top: 1px solid var(--border); }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 3rem; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-info-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; margin-bottom: .25rem; }
+    .contact-info-sub { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+    .contact-links { display: flex; flex-direction: column; gap: .75rem; margin-top: .5rem; }
+    .contact-link { display: flex; align-items: center; gap: 12px; padding: .9rem 1.1rem; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: var(--text); text-decoration: none; transition: border-color .2s, background .2s; }
+    .contact-link:hover { border-color: var(--accent); background: var(--bg3); }
+    .contact-link-icon { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .contact-link-text { display: flex; flex-direction: column; }
+    .contact-link-label { font-size: .7rem; color: var(--muted2); text-transform: uppercase; letter-spacing: .07em; }
+    .contact-link-value { font-size: .875rem; font-weight: 500; }
+    .contact-form-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+    .form-label { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+    .form-input, .form-textarea { background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 11px 14px; font-size: .9rem; color: var(--text); font-family: 'Space Grotesk', sans-serif; outline: none; width: 100%; transition: border-color .2s, box-shadow .2s; }
+    .form-input:focus, .form-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,0.15); }
+    .form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--muted2); }
+    .form-submit { width: 100%; padding: 13px; border-radius: 10px; background: var(--accent); border: none; color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; transition: background .2s, transform .15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .form-submit:hover { background: #6fa0ff; transform: translateY(-1px); }
+
+    /* Page Mentions Légales */
+    .page-mentions { background: rgba(3,5,9,0.92); padding: 6rem 2rem 4rem; }
+    .mentions-box { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; margin-top: 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .mentions-box h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: .5rem; color: var(--text); }
+    .mentions-box h3:first-child { margin-top: 0; }
+    .mentions-box p { color: var(--muted); font-size: 0.92rem; line-height: 1.8; margin-bottom: 1rem; }
+
+    /* Footer */
+    footer { background: rgba(7,11,20,0.85); backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; }
+    .footer-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; margin-bottom: .5rem; }
+    .footer-name span { color: var(--accent); }
+    .footer-sub { color: var(--muted2); font-size: .85rem; margin-bottom: 1.5rem; }
+    .footer-legal-link { margin-bottom: 1rem; }
+    .footer-legal-link a { color: var(--accent); font-size: 0.85rem; text-decoration: none; font-weight: 500; cursor: pointer; }
+    .footer-legal-link a:hover { text-decoration: underline; }
+    .footer-copy { color: var(--muted2); font-size: .75rem; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { gap: 1rem; }
+      .about-grid, .contact-layout, .projet-block-body, .schema-gallery, .entreprise-grid, .veille-themes-grid { grid-template-columns: 1fr; }
+      .projet-col-left { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Lightbox schémas -->
+<div class="schema-lightbox" id="schema-lightbox" onclick="closeSchemaLightbox(event)">
+  <div class="schema-lightbox-bar">
+    <span class="schema-lightbox-label" id="schema-lightbox-label"></span>
+    <button class="schema-lb-close" onclick="closeSchemaLightboxBtn()">✕ Fermer</button>
+  </div>
+  <div class="schema-lightbox-inner">
+    <img id="schema-lightbox-img" src="" alt="" />
+  </div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" onclick="navigate('home')">L<span>D</span></a>
+  <ul class="nav-links">
+    <li><a onclick="navHome('apropos')" data-page="home">Mon parcours</a></li>
+    <li><a onclick="navHome('entreprise')" data-page="home">Mon entreprise</a></li>
+    <li><a onclick="navigate('projets')" data-page="projets">Projets E5</a></li>
+    <li><a onclick="navigate('veille')" data-page="veille">Veille</a></li>
+    <li><a onclick="navHome('contact')" data-page="home">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════ PAGE HOME ═══════════ -->
+<div id="page-home" class="page active">
+
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge">BTS SIO • Option SISR • MyDigitalSchool • Session 2027</div>
+      <h1><div class="first">Léo</div><div class="last">Decroix</div></h1>
+      <p class="hero-sub">Alternant technicien informatique & agent technico-commercial à La Boutique Regeco.</p>
+      <div class="hero-ctas">
+        <button onclick="navigate('projets')" class="btn btn-primary">Voir mes projets E5</button>
+        <button onclick="navigate('veille')" class="btn btn-outline">Voir ma veille</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1 : MON PARCOURS -->
+  <section id="apropos">
+    <div class="container">
+      <div class="section-label">Profil</div>
+      <h2 class="section-title">Mon <span>parcours</span></h2>
+      
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="avatar">LD</div>
+          <h3>Léo Decroix</h3>
+          <div class="role">Étudiant BTS SIO SISR — MyDigitalSchool</div>
+          <div class="about-text">
+            <p>Titulaire d'un <strong>Bac pro SN (Système Numérique)</strong> option <strong>RISC</strong> <em>(Réseau Informatique et Système Communiquant)</em>.</p>
+            <p>Actuellement en 3 années d’alternance (2024-2027) en tant qu'agent technico-commercial et technicien informatique.</p>
+          </div>
+          <div class="about-tags">
+            <span class="tag">SISR</span><span class="tag">Réseaux</span><span class="tag">Systèmes</span><span class="tag">Support</span>
+          </div>
+        </div>
+
+        <div class="about-card">
+          <h3 style="margin-bottom: 1rem;">Informations clés</h3>
+          <div class="about-text">
+            <p><strong>Formation :</strong> BTS SIO Option SISR (Session 2027)</p>
+            <p><strong>Établissement :</strong> MyDigitalSchool</p>
+            <p><strong>E-mail :</strong> <a href="mailto:decroixleo55@gmail.com" style="color:var(--accent);text-decoration:none">decroixleo55@gmail.com</a></p>
+            <p><strong>Téléphone :</strong> 07 68 01 18 69</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 : PRÉSENTATION DE MON ENTREPRISE & MISSIONS -->
+  <section id="entreprise">
+    <div class="container">
+      <div class="section-label">Alternance</div>
+      <h2 class="section-title">Présentation de <span>mon entreprise</span></h2>
+
+      <div class="entreprise-grid">
+        <div class="entreprise-card">
+          <div class="entreprise-content">
+            <div class="section-label">Structure d'accueil</div>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:0.75rem;color:var(--text);">La Boutique Regeco</h3>
+            <p style="color:var(--muted);font-size:0.87rem;line-height:1.6;margin-bottom:0.5rem;">
+              <strong>Adresse :</strong> 46 Rue de la Marne, 50000 Saint-Lô
+            </p>
+            <p style="color:var(--muted);font-size:0.87rem;line-height:1.6;">
+              TPE de 6 salariés spécialisée dans la vente, la maintenance et les services informatiques aux particuliers et professionnels.
+            </p>
+          </div>
+          <div class="entreprise-img-wrap">
+            <img src="IMAGE-BOUTIQUE.jpg" alt="La Boutique Regeco Saint-Lô" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="entreprise-card">
+          <div class="entreprise-content">
+            <div class="section-label">Architecture</div>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:0.75rem;color:var(--text);">Topologie Réseau</h3>
+            <p style="color:var(--muted);font-size:0.87rem;line-height:1.6;">
+              Schéma d'interconnexion des postes clients, des équipements Wi-Fi et des périphériques de l'infrastructure interne de la structure.
+            </p>
+          </div>
+          <div class="entreprise-img-wrap">
+            <img src="TOPOLOGIE-REGECO.png" alt="Topologie réseau La Boutique Regeco" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloc des Tâches & Missions réalisées en alternance -->
+      <div class="missions-card">
+        <div class="section-label">Missions &amp; Activités</div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text);margin-top:0.25rem;">Mes missions et tâches au quotidien</h3>
+        
+        <div class="missions-grid">
+          <div class="mission-item">
+            <div class="mission-icon">🎧</div>
+            <div class="mission-info">
+              <h4>Assistance utilisateur</h4>
+              <p>Accueil, diagnostic des pannes et accompagnement technique des clients sur place ou par téléphone.</p>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="mission-icon">💻</div>
+            <div class="mission-info">
+              <h4>Dépannage à distance</h4>
+              <p>Prise en main à distance des postes clients pour résolution rapide de bugs ou de configurations.</p>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="mission-icon">🔧</div>
+            <div class="mission-info">
+              <h4>Remplacement de composants</h4>
+              <p>Maintenance matérielle : changement de dalles, disques durs, barrettes de RAM, cartes graphiques, etc.</p>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="mission-icon">💿</div>
+            <div class="mission-info">
+              <h4>Réinstallation OS</h4>
+              <p>Formatage, réinstallation et configuration complète des systèmes d'exploitation (Windows / Linux) et des suites logicielles.</p>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="mission-icon">🧹</div>
+            <div class="mission-info">
+              <h4>Nettoyage &amp; Optimisation</h4>
+              <p>Dépoussiérage physique des composants, élimination des malwares, fichiers temporaires et optimisation des performances.</p>
+            </div>
+          </div>
+
+          <div class="mission-item">
+            <div class="mission-icon">🤝</div>
+            <div class="mission-info">
+              <h4>Conseil &amp; Vente de matériels</h4>
+              <p>Recommandation de solutions adaptées aux besoins des clients et vente de matériel informatique (PC, accessoires, périphériques).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION COMPÉTENCES (BOUTON D'AFFICHAGE DU PDF "test.pdf") -->
+  <section style="background:rgba(7,11,20,0.85);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:5rem 2rem;">
+    <div class="container">
+      <div class="section-label">Savoir-faire</div>
+      <h2 class="section-title">Tableau de synthèse des <span>compétences B1</span></h2>
+      
+      <div class="comp-pdf-card">
+        <p style="color:var(--muted);font-size:0.95rem;margin-bottom:1.5rem;">Consultez le document officiel récapitulatif des compétences validées.</p>
+        <a href="test.pdf" target="_blank" class="btn-pdf-view">
+          📄 Afficher le tableau de synthèse (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label">Me joindre</div>
+      <h2 class="section-title">Formulaire de <span>contact</span></h2>
+      <div class="contact-layout">
+        <div class="contact-info">
+          <div>
+            <div class="contact-info-title">Une question ? Un projet ?</div>
+            <p class="contact-info-sub">N’hesite pas a me contacter pour toute opportunite de stage, d’alternance, ou simplement pour echanger sur un projet technique.</p>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:decroixleo55@gmail.com" class="contact-link">
+              <div class="contact-link-icon" style="background:rgba(79,142,247,0.12);color:var(--accent)">📧</div>
+              <div class="contact-link-text"><span class="contact-link-label">E-mail</span><span class="contact-link-value">decroixleo55@gmail.com</span></div>
+            </a>
+            <a href="https://www.linkedin.com/in/l%C3%A9o-decroix-184489350/" target="_blank" class="contact-link">
+              <div class="contact-link-icon" style="background:rgba(124,92,252,0.12);color:var(--accent2)">💼</div>
+              <div class="contact-link-text"><span class="contact-link-label">LinkedIn</span><span class="contact-link-value">linkedin.com/in/leo-decroix</span></div>
+            </a>
+            <a href="https://github.com/decroixleo" target="_blank" class="contact-link">
+              <div class="contact-link-icon" style="background:rgba(255,255,255,0.06);color:var(--text)">🐙</div>
+              <div class="contact-link-text"><span class="contact-link-label">GitHub</span><span class="contact-link-value">github.com/decroixleo</span></div>
+            </a>
+          </div>
+        </div>
+        <div class="contact-form-wrap">
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0"><label class="form-label" for="f-nom">Nom</label><input class="form-input" type="text" id="f-nom" placeholder="Votre nom" /></div>
+            <div class="form-group" style="margin-bottom:0"><label class="form-label" for="f-email">E-mail</label><input class="form-input" type="email" id="f-email" placeholder="votre@email.fr" /></div>
+          </div>
+          <div class="form-group"><label class="form-label" for="f-sujet">Sujet</label><input class="form-input" type="text" id="f-sujet" placeholder="Stage, alternance, question technique..." /></div>
+          <div class="form-group"><label class="form-label" for="f-message">Message</label><textarea class="form-textarea" id="f-message" placeholder="Votre message..."></textarea></div>
+          <button class="form-submit">Envoyer le message →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-name">Léo <span>Decroix</span></div>
+    <div class="footer-sub">BTS SIO • Option SISR • MyDigitalSchool • Session 2027</div>
+    <div class="footer-legal-link">
+      <a onclick="navigate('mentions')">Mentions Légales &amp; RGPD</a>
+    </div>
+    <div class="footer-copy">2027 Léo Decroix • Portfolio E5</div>
+  </footer>
+
+</div>
+
+
+<!-- ═══════════ PAGE PROJETS E5 ═══════════ -->
+<div id="page-projets" class="page page-projets">
+
+  <div class="page-hero">
+    <div class="container">
+      <div>
+        <div class="section-label">Épreuve E5</div>
+        <h2 class="section-title" style="margin-bottom:0">Réalisations <span>Professionnelles</span></h2>
+        <p style="color:var(--muted);margin-top:.75rem;font-size:.95rem;">Support de présentation et détails techniques associés (Bloc B1).</p>
+      </div>
+    </div>
+  </div>
+
+  <section style="padding:4rem 2rem;">
+    <div class="container">
+
+      <!-- PROJET 01 -->
+      <div class="projet-block">
+        <div class="projet-block-header">
+          <div class="projet-block-meta">
+            <span class="projet-num-badge">
+              <span class="projet-num-icon" style="background:rgba(48,232,192,0.12);color:var(--accent3);">01</span>
+              Réalisation Pro 01
+            </span>
+            <div class="projet-block-title">Déploiement automatisé de serveurs de jeu Minecraft</div>
+          </div>
+          <span class="projet-type-pill" style="background:rgba(48,232,192,0.1);color:var(--accent3);border:1px solid rgba(48,232,192,0.25);">Scripting &amp; Automatisation</span>
+        </div>
+
+        <div class="projet-block-body">
+          <div class="projet-col-left">
+            <div class="col-section-label">Contexte &amp; Contraintes</div>
+            <div class="projet-context-text">
+              <p>Mise en place d'un système de déploiement automatisé basé sur <strong>Ansible</strong> pour instancier des serveurs Minecraft Java Edition sur des conteneurs <strong>Proxmox LXC</strong>.</p>
+              <p><strong>Contrainte technique :</strong> Les conteneurs sont isolés et déployés sur un VLAN dédié pour garantir la segmentation et la sécurité du réseau.</p>
+            </div>
+            <div class="col-section-label">Compétences du bloc B1 validées</div>
+            <div class="comp-list">
+              <span class="comp-badge" style="color:var(--accent3);border-color:rgba(48,232,192,0.3);">Répondre aux incidents et demandes</span>
+              <span class="comp-badge" style="color:var(--accent3);border-color:rgba(48,232,192,0.3);">Travailler en mode projet</span>
+              <span class="comp-badge" style="color:var(--accent3);border-color:rgba(48,232,192,0.3);">Mettre à disposition un service</span>
+              <span class="comp-badge" style="color:var(--accent3);border-color:rgba(48,232,192,0.3);">Organiser son développement professionnel</span>
+            </div>
+            <div class="col-section-label">Technologies</div>
+            <div class="tech-list">
+              <span class="tech-badge">Ansible</span>
+              <span class="tech-badge">Proxmox LXC</span>
+              <span class="tech-badge">VLAN</span>
+              <span class="tech-badge">Linux / Bash</span>
+              <span class="tech-badge">SSH</span>
+            </div>
+          </div>
+
+          <div class="projet-col-right">
+            <div class="col-section-label">Schémas &amp; Captures (Cliquer pour agrandir)</div>
+            <div class="schema-gallery">
+              <div class="schema-thumb" onclick="openSchemaLightbox('Schéma_Infra_Ansible.jpg','Schéma infrastructure')">
+                <img src="Schéma_Infra_Ansible.jpg" alt="Schéma infrastructure" loading="lazy" />
+                <div class="schema-label">Schéma infrastructure</div>
+              </div>
+              <div class="schema-thumb" onclick="openSchemaLightbox('Schéma_Flux_Ansible.jpg','Diagramme de flux')">
+                <img src="Schéma_Flux_Ansible.jpg" alt="Diagramme de flux" loading="lazy" />
+                <div class="schema-label">Diagramme de flux</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJET 02 — EN COURS / EN ATTENTE -->
+      <div class="projet-block">
+        <div class="projet-block-header">
+          <div class="projet-block-meta">
+            <span class="projet-num-badge">
+              <span class="projet-num-icon" style="background:rgba(247,165,79,0.15);color:var(--orange);">02</span>
+              Réalisation Pro 02
+            </span>
+          </div>
+          <span class="projet-type-pill" style="background:rgba(247,165,79,0.1);color:var(--orange);border:1px solid rgba(247,165,79,0.25);">En cours / En attente</span>
+        </div>
+
+        <div class="projet-block-body" style="grid-template-columns: 1fr;">
+          <div class="projet-col-left" style="border-right: none;">
+            <div class="col-section-label">Statut du projet</div>
+            <div class="projet-pending-box">
+              <div class="projet-pending-title">⏳ Projet en cours de réalisation</div>
+              <p class="projet-pending-text">Cette seconde réalisation professionnelle est actuellement en cours de développement. Le projet n'est pas encore finalisé et se trouve en attente de déploiement et de documentation complète.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-name">Léo <span>Decroix</span></div>
+    <div class="footer-sub">BTS SIO • Option SISR • MyDigitalSchool • Session 2027</div>
+    <div class="footer-legal-link">
+      <a onclick="navigate('mentions')">Mentions Légales &amp; RGPD</a>
+    </div>
+    <div class="footer-copy">2027 Léo Decroix • Portfolio E5</div>
+  </footer>
+
+</div>
+
+
+<!-- ═══════════ PAGE VEILLE ═══════════ -->
+<div id="page-veille" class="page page-veille">
+
+  <div class="page-hero">
+    <div class="container">
+      <div>
+        <div class="section-label">Veille &amp; Développement pro</div>
+        <h2 class="section-title" style="margin-bottom:0">Veille <span>Technologique</span></h2>
+        <p style="color:var(--muted);margin-top:.75rem;font-size:.95rem;">Suivi des tendances et des innovations technologiques en autonomie.</p>
+      </div>
+    </div>
+  </div>
+
+  <section style="padding:4rem 2rem;">
+    <div class="container">
+
+      <!-- Explication Feedly -->
+      <div class="veille-intro-card">
+        <h3>📡 Qu'est-ce que Feedly et comment fonctionne ma veille ?</h3>
+        <p>Pour mener à bien ma veille technologique en tant qu'étudiant en BTS SIO SISR, j'utilise l'agrégateur de flux RSS <strong>Feedly</strong>. Cet outil centralise l'ensemble des sources d'informations spécialisées (sites web d'actualités IT, blogs techniques, documentations officielles et bulletins de sécurité).</p>
+        <p>Plutôt que de visiter chaque site un par un, Feedly récupère automatiquement les dernières publications et les classe par thématiques, ce qui me permet de rester informé en temps réel des évolutions du secteur informatique et d'approfondir mes connaissances techniques.</p>
+      </div>
+
+      <!-- Les deux thèmes de veille -->
+      <div class="veille-themes-grid">
+
+        <!-- Thème 1 : IA en entreprise -->
+        <div class="veille-theme-card">
+          <div>
+            <h3>🤖 1. L'utilisation de l'IA au sein des entreprises</h3>
+            <p>Ce premier axe de veille se concentre sur l'intégration croissante des intelligences artificielles (comme les modèles de langage et les assistants automatisés) dans les processus métiers et les services informatiques.</p>
+            <p>J'analyse la manière dont les entreprises adoptent ces technologies pour automatiser les tâches répétitives, améliorer l'efficacité du support technique, analyser les données de sécurité ou encore assister les développeurs et administrateurs système dans la résolution d'incidents.</p>
+          </div>
+          <div class="veille-highlight-box">
+            <h4>Impact professionnel</h4>
+            <p>Comprendre les enjeux de l'IA aide à anticiper les nouveaux besoins en infrastructure et en cybersécurité pour supporter ces charges de travail.</p>
+          </div>
+        </div>
+
+        <!-- Thème 2 : Outils d'automatisation & Ansible -->
+        <div class="veille-theme-card">
+          <div>
+            <h3>⚙️ 2. Les outils d'automatisation</h3>
+            <p>Ce second axe explore les solutions logicielles et méthodologies DevOps destinées à automatiser le déploiement, la configuration et la gestion des infrastructures réseaux et systèmes.</p>
+            <p>C'est précisément grâce au suivi régulier de cette thématique via ma veille que j'ai découvert l'outil <strong>Ansible</strong>.</p>
+          </div>
+          <div class="veille-highlight-box">
+            <h4>Lien avec mes projets E5</h4>
+            <p>Cette découverte m'a permis d'utiliser concrètement Ansible pour concevoir et réaliser mon premier projet professionnel : le déploiement automatisé de serveurs de jeu sur Proxmox LXC.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-name">Léo <span>Decroix</span></div>
+    <div class="footer-sub">BTS SIO • Option SISR • MyDigitalSchool • Session 2027</div>
+    <div class="footer-legal-link">
+      <a onclick="navigate('mentions')">Mentions Légales &amp; RGPD</a>
+    </div>
+    <div class="footer-copy">2027 Léo Decroix • Portfolio E5</div>
+  </footer>
+
+</div>
+
+
+<!-- ═══════════ PAGE MENTIONS LÉGALES & RGPD ═══════════ -->
+<div id="page-mentions" class="page page-mentions">
+  <div class="container">
+    <div class="section-label">Informations légales</div>
+    <h2 class="section-title">Mentions Légales <span>&amp; RGPD</span></h2>
+    
+    <div class="mentions-box">
+      <h3>1. Éditeur du site</h3>
+      <p>Le présent site web est le portfolio professionnel de <strong>Léo Decroix</strong>, étudiant en BTS SIO option SISR au sein de l'établissement <strong>MyDigitalSchool</strong> et en alternance à <strong>La Boutique Regeco</strong>.</p>
+      
+      <h3>2. Conception et Développement</h3>
+      <p>Ce site web a été conçu et développé avec l'assistance d'outils d'<strong>Intelligence Artificielle (IA)</strong> pour la mise en forme du code, la structuration des pages et l'optimisation de l'ergonomie.</p>
+
+      <h3>3. Hébergement</h3>
+      <p>Le site est hébergé sur la plateforme <strong>GitHub Pages</strong>. Pour toute question relative à l'hébergement, vous pouvez consulter la politique de confidentialité de GitHub ou contacter l'éditeur à l'adresse e-mail : <a href="mailto:decroixleo55@gmail.com" style="color:var(--accent)">decroixleo55@gmail.com</a>.</p>
+
+      <h3>4. Propriété intellectuelle</h3>
+      <p>L'ensemble des contenus présents sur ce portfolio (textes, schémas d'infrastructure, code source, graphismes, logos) est protégé par les lois en vigueur sur la propriété intellectuelle et appartient exclusivement à Léo Decroix, sauf mention contraire explicite.</p>
+
+      <h3>5. Données personnelles (RGPD)</h3>
+      <p>Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés :</p>
+      <p>• <strong>Formulaire de contact :</strong> Les informations recueillies via le formulaire de contact (nom, e-mail, message) sont destinées exclusivement à un usage professionnel pour répondre aux sollicitations (stages, alternance, échanges techniques). Elles ne sont en aucun cas cédées ou vendues à des tiers.</p>
+      <p>• <strong>Droits des utilisateurs :</strong> Vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles en envoyant un simple e-mail à l'adresse : <a href="mailto:decroixleo55@gmail.com" style="color:var(--accent)">decroixleo55@gmail.com</a>.</p>
+    </div>
+  </div>
+
+  <footer style="margin-top: 4rem;">
+    <div class="footer-name">Léo <span>Decroix</span></div>
+    <div class="footer-sub">BTS SIO • Option SISR • MyDigitalSchool • Session 2027</div>
+    <div class="footer-legal-link">
+      <a onclick="navigate('home')">← Retour à l'accueil</a>
+    </div>
+    <div class="footer-copy">2027 Léo Decroix • Portfolio E5</div>
+  </footer>
+</div>
+
+<script>
+  const PAGES = ['home','projets','veille','mentions'];
+
+  function navHome(id) {
+    navigate('home');
+    setTimeout(() => { const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }, 50);
+  }
+  function navigate(target) {
+    PAGES.forEach(p => {
+      const pageEl = document.getElementById('page-'+p);
+      if(pageEl) pageEl.classList.remove('active');
+    });
+    const targetEl = document.getElementById('page-'+target);
+    if(targetEl) targetEl.classList.add('active');
+    window.scrollTo({top:0,behavior:'instant'});
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.remove('active');
+      const p = a.getAttribute('data-page');
+      if((p==='projets'||p==='veille') && p===target) a.classList.add('active');
+    });
+  }
+
+  /* Lightbox schémas */
+  function openSchemaLightbox(src, label) {
+    document.getElementById('schema-lightbox-img').src = src;
+    document.getElementById('schema-lightbox-label').textContent = label;
+    document.getElementById('schema-lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSchemaLightbox(e) { if(e.target===document.getElementById('schema-lightbox')) closeSchemaLightboxBtn(); }
+  function closeSchemaLightboxBtn() {
+    document.getElementById('schema-lightbox').classList.remove('active');
+    document.getElementById('schema-lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeSchemaLightboxBtn(); } });
+</script>
+</body>
+</html>
